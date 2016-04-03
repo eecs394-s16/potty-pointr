@@ -1,0 +1,13 @@
+bldg,room,floor,lat,long,gender,numStalls,numUrinals,numSinks,automation,numHandicap,numChemShowers,numShowers,numStations,Towels/Hand Dryer?,Napkin vending machine
+Technological Institute,F128,1,42.057561,-87.67649,M,4,4,4,"Toilets,urinals",1,1,0,0,Towels,0
+Technological Institute,M131,1,42.058026,-87.67559,M,2,2,2,None,1,0,0,0,Towels,0
+Technological Institute,Opposite L167,1,42.0579137,-87.6760758,M,1,3,3,None,1,0,0,0,Towels,0
+Technological Institute,E147,1,42.0582249,-87.6750736,M,3,3,3,Toilets,1,1,0,0,Towels,0
+Technological Institute,K139,1,42.0572974,-87.6750673,M,3,3,3,None,1,1,0,0,Towels,0
+Technological Institute,Near A143,1,42.0582301,-87.676636,M,3,2,4,Toilets,1,1,0,0,Towels,0
+Technological Institute,Near LR3,1,42.0577065,-87.6760274,F,4,,3,None,1,1,0,0,Towels,1
+Technological Institute,M161,1,42.0577397,-87.6757578,F,10,,4,None,2,1,0,0,Towels,1
+Technological Institute,Near M166,1,42.0575819,-87.6756037,F,3,,3,None,1,1,0,0,Towels,1
+Technological Institute,Near K126,1,42.057456,-87.6751029,F,3,,3,None,0,0,0,0,Towels,0
+Technological Institute,Near Tech Express,1,42.0579337,-87.6757963,F,9,,4,None,1,1,0,0,Towels,1
+Technological Institute,Near E129,1,42.0532984,-87.6724531,F,3,,3,None,1,1,0,0,Towels,1
