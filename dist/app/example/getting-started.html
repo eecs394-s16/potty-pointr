@@ -43,6 +43,46 @@
 
   <p>Below, you can see our multi-page navigation in action. Tap on a button to move to a new view. Sachin made an edit</p>
 
+  <head>
+  <script>
+  window.addEventListener('WebComponentsReady', function() {
+    supersonic.app.splashscreen.hide();
+  });
+  </script>
+  <!-- Cloud resource definition file for Supersonic Data -->
+  <script src="/cloud-resources.js"></script>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'>
+  </head>
+  <body>
+    <div id='messagesDiv'></div>
+    <!-- <input type='text' id='roomInput' placeholder='room'>
+    <input type='text' id='messageInput' placeholder='Message'> -->
+    <script>
+      var myDataRef = new Firebase('https://scorching-fire-6140.firebaseio.com/');
+      $('#messageInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+          var room = $('#roomInput').val();
+          var text = $('#messageInput').val();
+          myDataRef.push({room: room, text: text});
+          $('#messageInput').val('');
+        }
+      });
+      myDataRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        displayChatMessage(message.room, message.text);
+      });
+      function displayChatMessage(room, text) {
+        $('<div/>').text(text).prepend($('<em/>').text(room+': ')).appendTo($('#messagesDiv'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };
+    </script>
+  </body>
+
+
+
+
   <super-navigate view-id="using-the-scanner">
     <button class="button button-block button-positive icon-left super-wand">Using the AppGyver Scanner</button>
   </super-navigate>
