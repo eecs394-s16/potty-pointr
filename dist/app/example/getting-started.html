@@ -49,9 +49,9 @@
 
   <p>Below, you can see our multi-page navigation in action. Tap on a button to move to a new view.</p>
 
-  <div id='messagesDiv'></div>
-  <!-- <input type='text' id='roomInput' placeholder='room'>
-  <input type='text' id='messageInput' placeholder='Message'> -->
+  <div ng-repeat="bathroom in data">
+    {{bathroom.room}} | {{bathroom.gender}}
+  </div>
 
   <super-navigate view-id="using-the-scanner">
     <button class="button button-block button-positive icon-left super-wand">Using the AppGyver Scanner</button>
