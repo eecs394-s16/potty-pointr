@@ -14,8 +14,8 @@
     "numChemShowers": 1,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 0
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 0
   },
   {
     "bldg": "Technological Institute",
@@ -32,8 +32,8 @@
     "numChemShowers": 0,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 0
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 0
   },
   {
     "bldg": "Technological Institute",
@@ -50,8 +50,8 @@
     "numChemShowers": 0,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 0
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 0
   },
   {
     "bldg": "Technological Institute",
@@ -68,8 +68,8 @@
     "numChemShowers": 1,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 0
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 0
   },
   {
     "bldg": "Technological Institute",
@@ -86,8 +86,8 @@
     "numChemShowers": 1,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 0
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 0
   },
   {
     "bldg": "Technological Institute",
@@ -104,8 +104,8 @@
     "numChemShowers": 1,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 0
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 0
   },
   {
     "bldg": "Technological Institute",
@@ -122,8 +122,8 @@
     "numChemShowers": 1,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 1
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 1
   },
   {
     "bldg": "Technological Institute",
@@ -140,8 +140,8 @@
     "numChemShowers": 1,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 1
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 1
   },
   {
     "bldg": "Technological Institute",
@@ -158,8 +158,8 @@
     "numChemShowers": 1,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 1
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 1
   },
   {
     "bldg": "Technological Institute",
@@ -176,8 +176,8 @@
     "numChemShowers": 0,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 0
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 0
   },
   {
     "bldg": "Technological Institute",
@@ -194,8 +194,8 @@
     "numChemShowers": 1,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 1
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 1
   },
   {
     "bldg": "Technological Institute",
@@ -212,7 +212,7 @@
     "numChemShowers": 1,
     "numShowers": 0,
     "numStations": 0,
-    "handDryOptions": "Towels",
-    "Napkin vending machine": 1
+    "dryingOptions": "Towels",
+    "numNapkinMachines": 1
   }
 ]
