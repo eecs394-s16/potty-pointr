@@ -22,3 +22,11 @@ module.exports =
   statusBar:
     enabled: true
     style: "default"
+
+  drawers:
+    left:
+      id: "leftDrawer"
+      location: "http://localhost/app/example/drawer.html"
+      showOnAppLoad: false
+    options:
+      animation: "swingingDoor"
