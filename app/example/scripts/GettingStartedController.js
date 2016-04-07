@@ -230,10 +230,20 @@ function initialize() {
   var myCenter=new google.maps.LatLng(42.057800, -87.676417);
   var marker=new google.maps.Marker({
   position:myCenter,
+  icon:'../views/pinkball.png'
   });
 
   marker.setMap(map);
 
+
+  angular.forEach($scope.data , function(value){
+
+     var myC=new google.maps.LatLng(value.lat,value.long);
+    var mkr=new google.maps.Marker({
+    position:myC});
+
+     mkr.setMap(map);
+    });
   
 }
 google.maps.event.addDomListener(window, 'load', initialize);
