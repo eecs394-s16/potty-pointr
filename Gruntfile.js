@@ -11,4 +11,4 @@ module.exports = function(grunt) {
   grunt.registerTask("default", [
     "steroids-make-fresh"
   ]);
-}
+};
