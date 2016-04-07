@@ -60,46 +60,33 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-<link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'>
+
+<link rel='stylesheet' type='text/css' href='css/getting-started.css'>
+
 </head>
 
 <body>
-<div class="padding" ng-controller="GettingStartedController">
+<div ng-controller="GettingStartedController">
 
   <super-navbar>
     <super-navbar-title>
-      Hello World!
+      Potty Pointr
     </super-navbar-title>
   </super-navbar>
 
-  <p>Welcome to PottyPointr!</p>
+<div id="googleMap"></div>
 
-
-
-  <div ng-repeat="bathroom in data">
-    {{bathroom.room}} | {{bathroom.gender}}
-  </div>
-
-
-
-
-<div id="googleMap" style="width:350px;height:380px;">
-I should be the map
-
-</div>
-
-
-
-
-  <super-navigate view-id="using-the-scanner">
+  <!-- <super-navigate view-id="using-the-scanner">
     <button class="button button-block button-positive icon-left super-wand">Using the AppGyver Scanner</button>
   </super-navigate>
 
   <super-navigate view-id="learn-more">
     <button class="button button-block button-positive icon-left super-university">Learn more</button>
-  </super-navigate>
+  </super-navigate> -->
 
-  <h2>Get in touch with us!</h2>
+  <div ng-repeat="bathroom in data">
+    {{bathroom.room}} | {{bathroom.gender}}
+  </div>
 
 </div>
 
