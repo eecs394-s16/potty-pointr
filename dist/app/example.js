@@ -276,11 +276,16 @@ function initialize() {
             icon:male});}
         mkr.setMap(map);
 
+    var contentString = '<div class="mainContent">'+ value.room + ' | ' + value.gender + 
+        '</div><div class="rating">&#9734&#9734&#9734&#9734&#9734</div>';
+
     var infowindow = new google.maps.InfoWindow({
-        content:value.room
+        content:contentString
     });
     google.maps.event.addListener(mkr, 'click', function() {
         infowindow.open(map,mkr);
+        var view = new supersonic.ui.View("example#learn-more");
+        supersonic.ui.layers.push(view);
     });
     });
 }
