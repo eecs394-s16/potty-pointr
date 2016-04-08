@@ -232,19 +232,19 @@ function initialize() {
     mapTypeId:google.maps.MapTypeId.ROADMAP
   };
   var female = new google.maps.MarkerImage(
-    'https://cdn1.iconfinder.com/data/icons/amenities/500/woman-512.png',
+    '/img/woman-512.png',
     null, /* size is determined at runtime */
     null, /* origin is 0,0 */
     null, /* anchor is bottom center of the scaled image */
     new google.maps.Size(35, 35)
-  );  
+  );
   var male = new google.maps.MarkerImage(
-    'https://cdn1.iconfinder.com/data/icons/amenities/500/man-512.png',
+    '/img/man-512.png',
     null, /* size is determined at runtime */
     null, /* origin is 0,0 */
     null, /* anchor is bottom center of the scaled image */
     new google.maps.Size(35, 35)
-);  
+);
 
   var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
   var myCenter=new google.maps.LatLng(42.057800, -87.676417);
@@ -257,7 +257,8 @@ function initialize() {
 
   angular.forEach($scope.data , function(value){
 
-     var myC=new google.maps.LatLng(value.lat,value.long);
+    var myC=new google.maps.LatLng(value.lat,value.long);
+
     if (value.gender=="F"){
         var mkr=new google.maps.Marker({
         position:myC,
@@ -267,7 +268,7 @@ function initialize() {
         icon:male});}
      mkr.setMap(map);
     });
-  
+
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -279,11 +280,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 
   );
-
-
-
-
-
 
 angular
   .module('example')
