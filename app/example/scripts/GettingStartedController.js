@@ -238,42 +238,44 @@ function initialize() {
     null, /* size is determined at runtime */
     null, /* origin is 0,0 */
     null, /* anchor is bottom center of the scaled image */
-    new google.maps.Size(35, 35)
-);  
+    new google.maps.Size(35, 35) );  
 
   var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  
+  //current location 
   var myCenter=new google.maps.LatLng(42.057800, -87.676417);
   var marker=new google.maps.Marker({
-  position:myCenter,
+    position:myCenter,
   });
 
   marker.setMap(map);
 
-
+  //bathroom
   angular.forEach($scope.data , function(value){
 
-     var myC=new google.maps.LatLng(value.lat,value.long);
-    if (value.gender=="F"){
-        var mkr=new google.maps.Marker({
-        position:myC,
-        icon:female});}
-    else{var mkr=new google.maps.Marker({
-        position:myC,
-        icon:male});}
-     mkr.setMap(map);
+    var myC=new google.maps.LatLng(value.lat,value.long);
+        if (value.gender=="F"){
+            var mkr=new google.maps.Marker({
+            position:myC,
+            icon:female});}
+        else{var mkr=new google.maps.Marker({
+            position:myC,
+            icon:male});}
+        mkr.setMap(map);
+    
+    var infowindow = new google.maps.InfoWindow({
+        content:value.room
     });
-  
+    google.maps.event.addListener(mkr, 'click', function() {
+        infowindow.open(map,mkr);
+    });
+    });
 }
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
-
-  }
-
-
-
-
-
-  );
+}  
+);//close controller
 
 
 
