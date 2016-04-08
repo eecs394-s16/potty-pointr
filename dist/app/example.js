@@ -3,69 +3,52 @@ angular.module('example', [
   'supersonic'
 ]);
 
-angular
-.module('example')
-.controller('GettingStartedController', function($scope, $q, supersonic) {
+angular.module('example').controller('GettingStartedController', function($scope, $q, supersonic) {
 
-  /*
-   * Fetch data from Firebase
-   */
-  function getData() {
-    var deferred = $q.defer();
-    var ref = new Firebase('https://scorching-fire-6140.firebaseio.com/');
+  var dataPromise = getData();
+  var locationPromise = getPosition();
 
-    ref.on("value", function(snapshot) {
-      $scope.data = snapshot.val();
-      deferred.resolve("Success!");
-    }, function (errorObject) {
-      deferred.reject("The read failed: " + str(errorObject.code));
-    });
+  google.maps.event.addDomListener(window, 'load', createMap);
 
-    return deferred.promise;
-  }
+  function createMap() {
+    /*
+     * Guaranteed not to run unless Firebase AND GPS data is successfully received
+     * $scope.data contains firebase data
+     * $scope.position contains GPS data
+     */
+    $q.all([dataPromise, locationPromise]).then(function(value) {
+      var myCoordinates = new google.maps.LatLng(
+        $scope.position.coords.latitude,
+        $scope.position.coords.longitude
+      );
 
-  function initialize() {
-    // Gender icons
-    var female = new google.maps.MarkerImage(
-      '/img/woman-512.png',
-      null, /* size is determined at runtime */
-      null, /* origin is 0,0 */
-      null, /* anchor is bottom center of the scaled image */
-      new google.maps.Size(35, 35)
-    );
-    var male = new google.maps.MarkerImage(
-      '/img/man-512.png',
-      null, /* size is determined at runtime */
-      null, /* origin is 0,0 */
-      null, /* anchor is bottom center of the scaled image */
-      new google.maps.Size(35, 35)
-    );
+      var map = new google.maps.Map(document.getElementById("googleMap"), {
+        center: myCoordinates,
+        zoom: 18,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
 
-    // Instantiate the map with properties
-    var mapProp = {
-      center: new google.maps.LatLng(42.057800, -87.676417),
-      zoom: 18,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-
-    // Get current location and add to map
-    supersonic.device.geolocation.getPosition().then(function(position) {
-      // supersonic.logger.log(
-      //   "Latitude: " + position.coords.latitude + "\n" +
-      //   "Longitude: " + position.coords.longitude + "\n" +
-      //   "Timestamp: " + position.timestamp
-      // );
-      var myCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       var marker = new google.maps.Marker({
-        position: myCenter
+        position: myCoordinates
       });
       marker.setMap(map);
 
-    });
+      // Get bathrooms from firebase and add to map
+      var female = new google.maps.MarkerImage(
+        '/img/woman-512.png',
+        null, /* size is determined at runtime */
+        null, /* origin is 0,0 */
+        null, /* anchor is bottom center of the scaled image */
+        new google.maps.Size(35, 35)
+      );
 
-    // Get bathrooms from firebase and add to map
-    $scope.promise.then(function(greeting) {
+      var male = new google.maps.MarkerImage(
+        '/img/man-512.png',
+        null, /* size is determined at runtime */
+        null, /* origin is 0,0 */
+        null, /* anchor is bottom center of the scaled image */
+        new google.maps.Size(35, 35)
+      );
 
       angular.forEach($scope.data, function(value) {
         var myC = new google.maps.LatLng(value.lat, value.long);
@@ -98,13 +81,47 @@ angular
         });
       });
     }, function(reason) {
+      // Something went wrong
       supersonic.logger.info(reason);
-    },
-    null);
+    });
   }
 
-  $scope.promise = getData();
-  google.maps.event.addDomListener(window, 'load', initialize);
+  /*
+   * Retrieve data from Firebase - asynchronous deferred/promise schema used
+   */
+  function getData() {
+    var deferred = $q.defer();
+    var ref = new Firebase('https://scorching-fire-6140.firebaseio.com/');
+
+    ref.on("value", function(snapshot) {
+      $scope.data = snapshot.val();
+      deferred.resolve("(Data) Success!");
+    }, function (errorObject) {
+      deferred.reject("The read failed: " + str(errorObject.code));
+    });
+
+    return deferred.promise;
+  }
+
+  /*
+   *  Retrieve GPS data using supersonic - asynchronous deferred/promise schema used
+   */
+  function getPosition() {
+    var deferred = $q.defer();
+
+    supersonic.device.geolocation.getPosition().then(function(position) {
+      // supersonic.logger.log(
+      //   "Latitude: " + position.coords.latitude + "\n" +
+      //   "Longitude: " + position.coords.longitude + "\n" +
+      //   "Timestamp: " + position.timestamp
+      // );
+
+      $scope.position = position;
+      deferred.resolve("(Position) Success!");
+
+      return deferred.promise;
+    });
+  }
 
 }); //close controller
 
