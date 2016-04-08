@@ -262,30 +262,6 @@ function initialize() {
   angular.forEach($scope.data , function(value){
 
     var myC=new google.maps.LatLng(value.lat,value.long);
-<<<<<<< HEAD
-
-    if (value.gender=="F"){
-        var mkr=new google.maps.Marker({
-        position:myC,
-        icon:female});}
-    else{var mkr=new google.maps.Marker({
-        position:myC,
-        icon:male});}
-     mkr.setMap(map);
-    });
-
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-
-
-  }
-
-
-
-
-
-  );
-=======
         if (value.gender=="F"){
             var mkr=new google.maps.Marker({
             position:myC,
@@ -308,4 +284,3 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 }
 );//close controller
->>>>>>> 97ef453dcdf2cac72054e7a24cff5a8929054678
