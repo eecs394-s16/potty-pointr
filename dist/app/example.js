@@ -247,17 +247,27 @@ function initialize() {
 );
 
   var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-  var myCenter=new google.maps.LatLng(42.057800, -87.676417);
-  var marker=new google.maps.Marker({
-  position:myCenter,
+
+  // current geolocation
+  supersonic.device.geolocation.getPosition().then( function(position) {
+    supersonic.logger.log(
+      "Latitude: " + position.coords.latitude + "\n" +
+      "Longitude: " + position.coords.longitude + "\n" +
+      "Timestamp: " + position.timestamp
+    );
+    var myCenter=new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    //var myCenter=new google.maps.LatLng(42.057800, -87.676417);
+    var marker=new google.maps.Marker({
+    position:myCenter
+    });
+    marker.setMap(map);
   });
 
-  marker.setMap(map);
-
-
+  //bathroom
   angular.forEach($scope.data , function(value){
 
     var myC=new google.maps.LatLng(value.lat,value.long);
+<<<<<<< HEAD
 
     if (value.gender=="F"){
         var mkr=new google.maps.Marker({
@@ -280,6 +290,30 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 
   );
+=======
+        if (value.gender=="F"){
+            var mkr=new google.maps.Marker({
+            position:myC,
+            icon:female});}
+        else{var mkr=new google.maps.Marker({
+            position:myC,
+            icon:male});}
+        mkr.setMap(map);
+
+    var infowindow = new google.maps.InfoWindow({
+        content:value.room
+    });
+    google.maps.event.addListener(mkr, 'click', function() {
+        infowindow.open(map,mkr);
+    });
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+}
+);//close controller
+>>>>>>> 97ef453dcdf2cac72054e7a24cff5a8929054678
 
 angular
   .module('example')
