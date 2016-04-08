@@ -1,37 +1,11 @@
-<head>
-<script src="http://maps.googleapis.com/maps/api/js"></script>
-
-
-<script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-
 <link rel='stylesheet' type='text/css' href='css/getting-started.css'>
 
-</head>
+<super-navbar>
+  <super-navbar-title>
+    PottyPointr
+  </super-navbar-title>
+</super-navbar>
 
-<body>
 <div ng-controller="GettingStartedController">
-
-  <super-navbar>
-    <super-navbar-title>
-      PottyPointr
-    </super-navbar-title>
-  </super-navbar>
-
-<div id="googleMap"></div>
-
-  <super-navigate view-id="using-the-scanner">
-    <button class="button button-block button-positive icon-left super-wand">Using the AppGyver Scanner</button>
-  </super-navigate>
-
-  <super-navigate view-id="learn-more">
-    Learn more
-  </super-navigate>
-
-<!--   <div ng-repeat="bathroom in data">
-    {{bathroom.room}} | {{bathroom.gender}}
-  </div> -->
-
+  <div id="googleMap"></div>
 </div>
-
-</body>
