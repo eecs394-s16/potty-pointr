@@ -232,28 +232,36 @@ function initialize() {
     mapTypeId:google.maps.MapTypeId.ROADMAP
   };
   var female = new google.maps.MarkerImage(
-    'https://cdn1.iconfinder.com/data/icons/amenities/500/woman-512.png',
+    '/img/woman-512.png',
     null, /* size is determined at runtime */
     null, /* origin is 0,0 */
     null, /* anchor is bottom center of the scaled image */
     new google.maps.Size(35, 35)
-  );  
+  );
   var male = new google.maps.MarkerImage(
-    'https://cdn1.iconfinder.com/data/icons/amenities/500/man-512.png',
+    '/img/man-512.png',
     null, /* size is determined at runtime */
     null, /* origin is 0,0 */
     null, /* anchor is bottom center of the scaled image */
-    new google.maps.Size(35, 35) );  
+    new google.maps.Size(35, 35)
+);
 
   var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-  
-  //current location 
-  var myCenter=new google.maps.LatLng(42.057800, -87.676417);
-  var marker=new google.maps.Marker({
-    position:myCenter,
-  });
 
-  marker.setMap(map);
+  // current geolocation
+  supersonic.device.geolocation.getPosition().then( function(position) {
+    supersonic.logger.log(
+      "Latitude: " + position.coords.latitude + "\n" +
+      "Longitude: " + position.coords.longitude + "\n" +
+      "Timestamp: " + position.timestamp
+    );
+    var myCenter=new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    //var myCenter=new google.maps.LatLng(42.057800, -87.676417);
+    var marker=new google.maps.Marker({
+    position:myCenter
+    });
+    marker.setMap(map);
+  });
 
   //bathroom
   angular.forEach($scope.data , function(value){
@@ -267,8 +275,10 @@ function initialize() {
             position:myC,
             icon:male});}
         mkr.setMap(map);
+
     var contentString = '<div class="mainContent">'+ value.room + ' | ' + value.gender + 
         '</div><div class="rating">&#9734&#9734&#9734&#9734&#9734</div>';
+
     var infowindow = new google.maps.InfoWindow({
         content:contentString
     });
@@ -282,13 +292,8 @@ function initialize() {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
-}  
+}
 );//close controller
-
-
-
-
-
 
 angular
   .module('example')
