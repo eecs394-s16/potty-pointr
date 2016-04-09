@@ -7,8 +7,8 @@ angular.module('example').controller('GettingStartedController', function($scope
 
   google.maps.event.addDomListener(window, 'load', createMap);
 
-  var dataPromise = getData();          // firebase data promise
   var locationPromise = getPosition();  // location data promise
+  var dataPromise = getData();          // firebase data promise
 
   function createMap() {
     // instantiate map with default location
@@ -17,6 +17,29 @@ angular.module('example').controller('GettingStartedController', function($scope
       zoom: 18,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
+
+    /*
+     * Guaranteed not to run until GPS data is successfully received
+     * $scope.position contains GPS data
+     */
+    locationPromise.then(function(message) {
+
+      var myCoordinates = new google.maps.LatLng(
+        $scope.position.coords.latitude,
+        $scope.position.coords.longitude
+      );
+
+      var marker = new google.maps.Marker({
+        position: myCoordinates
+      });
+      marker.setMap(map);
+
+      map.panTo(myCoordinates);
+
+    }, function(reason) {
+      // Something went wrong
+      supersonic.logger.info("locationPromise: " + reason);
+    }, null);
 
     /*
      * Guaranteed not to run until Firebase data is successfully received
@@ -75,28 +98,6 @@ angular.module('example').controller('GettingStartedController', function($scope
       // Something went wrong
       supersonic.logger.log("dataPromise: " + reason);
     }, null);
-
-    /*
-     * Guaranteed not to run until GPS data is successfully received
-     * $scope.position contains GPS data
-     */
-    locationPromise.then(function(message) {
-      var myCoordinates = new google.maps.LatLng(
-        $scope.position.coords.latitude,
-        $scope.position.coords.longitude
-      );
-
-      var marker = new google.maps.Marker({
-        position: myCoordinates
-      });
-      marker.setMap(map);
-
-      maps.panTo(myCoordinates);
-
-    }, function(reason) {
-      // Something went wrong
-      supersonic.logger.info("locationPromise: " + reason);
-    }, null);
   }
 
   /*
@@ -133,9 +134,9 @@ angular.module('example').controller('GettingStartedController', function($scope
 
       $scope.position = position;
       deferred.resolve("(Position) Success!");
-
-      return deferred.promise;
     });
+
+    return deferred.promise;
   }
 
 }); //close controller
