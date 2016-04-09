@@ -5,43 +5,31 @@ angular.module('example', [
 
 angular.module('example').controller('GettingStartedController', function($scope, $q, supersonic) {
 
-  var dataPromise = getData();
-  var locationPromise = getPosition();
-
   google.maps.event.addDomListener(window, 'load', createMap);
 
+  var dataPromise = getData();          // firebase data promise
+  var locationPromise = getPosition();  // location data promise
+
   function createMap() {
+    // instantiate map with default location
+    var map = new google.maps.Map(document.getElementById("googleMap"), {
+      center: new google.maps.LatLng(42.057810, -87.675877),
+      zoom: 18,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
     /*
-     * Guaranteed not to run unless Firebase AND GPS data is successfully received
+     * Guaranteed not to run until Firebase data is successfully received
      * $scope.data contains firebase data
-     * $scope.position contains GPS data
      */
-    $q.all([dataPromise, locationPromise]).then(function(value) {
-      var myCoordinates = new google.maps.LatLng(
-        $scope.position.coords.latitude,
-        $scope.position.coords.longitude
-      );
+    dataPromise.then(function(message) {
 
-      var map = new google.maps.Map(document.getElementById("googleMap"), {
-        center: myCoordinates,
-        zoom: 18,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      });
-
-      var marker = new google.maps.Marker({
-        position: myCoordinates
-      });
-      marker.setMap(map);
-
-      // Get bathrooms from firebase and add to map
-      var female = new google.maps.MarkerImage(
-        '/img/woman-512.png',
+      var female = new google.maps.MarkerImage('/img/woman-512.png',
         null, /* size is determined at runtime */
         null, /* origin is 0,0 */
         null, /* anchor is bottom center of the scaled image */
         new google.maps.Size(35, 35)
       );
-
       var male = new google.maps.MarkerImage(
         '/img/man-512.png',
         null, /* size is determined at runtime */
@@ -50,40 +38,65 @@ angular.module('example').controller('GettingStartedController', function($scope
         new google.maps.Size(35, 35)
       );
 
-      angular.forEach($scope.data, function(value) {
-        var myC = new google.maps.LatLng(value.lat, value.long);
-        var mkr;
+      angular.forEach($scope.data, function(bathroom) {
 
-        if (value.gender == "F"){
-          mkr = new google.maps.Marker({
-            position: myC,
+        var bathroomC = new google.maps.LatLng(bathroom.lat, bathroom.long);
+        var marker;
+
+        if (bathroom.gender == "F") {
+          marker = new google.maps.Marker({
+            position: bathroomC,
             icon: female
           });
         } else {
-          mkr = new google.maps.Marker({
-            position: myC,
+          marker = new google.maps.Marker({
+            position: bathroomC,
             icon: male
           });
         }
-        mkr.setMap(map);
+        marker.setMap(map);
 
-        var contentString = '<div class="mainContent">'+ value.room + ' | ' + value.gender +
+        var contentString = '<div class="mainContent">'+ bathroom.room + ' | ' + bathroom.gender +
         '</div><div class="rating">&#9734&#9734&#9734&#9734&#9734</div>';
 
         var infowindow = new google.maps.InfoWindow({
           content: contentString
         });
 
-        google.maps.event.addListener(mkr, 'click', function() {
-          infowindow.open(map,mkr);
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open(map, marker);
           var view = new supersonic.ui.View("example#learn-more");
           supersonic.ui.layers.push(view);
         });
+
       });
+
     }, function(reason) {
       // Something went wrong
-      supersonic.logger.info(reason);
-    });
+      supersonic.logger.log("dataPromise: " + reason);
+    }, null);
+
+    /*
+     * Guaranteed not to run until GPS data is successfully received
+     * $scope.position contains GPS data
+     */
+    locationPromise.then(function(message) {
+      var myCoordinates = new google.maps.LatLng(
+        $scope.position.coords.latitude,
+        $scope.position.coords.longitude
+      );
+
+      var marker = new google.maps.Marker({
+        position: myCoordinates
+      });
+      marker.setMap(map);
+
+      maps.panTo(myCoordinates);
+
+    }, function(reason) {
+      // Something went wrong
+      supersonic.logger.info("locationPromise: " + reason);
+    }, null);
   }
 
   /*
@@ -95,8 +108,10 @@ angular.module('example').controller('GettingStartedController', function($scope
 
     ref.on("value", function(snapshot) {
       $scope.data = snapshot.val();
+      supersonic.logger.info("(Data) Success!");
       deferred.resolve("(Data) Success!");
     }, function (errorObject) {
+      supersonic.logger.info("The read failed: " + str(errorObject.code));
       deferred.reject("The read failed: " + str(errorObject.code));
     });
 
