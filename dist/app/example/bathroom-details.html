@@ -11,7 +11,7 @@
   <meta charset="utf8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-  <title>getting-started</title>
+  <title>bathroom-details</title>
 
   <link rel="stylesheet" href="/components/supersonic/css/supersonic.css" />
   <link rel="stylesheet" href="/app/common/stylesheets/application.css" />
@@ -34,16 +34,27 @@
 </head>
 <body ng-app="example">
 
-<link rel='stylesheet' type='text/css' href='css/getting-started.css'>
 
+<!-- <link rel='stylesheet' type='text/css' href='css/bathroom-details.css'> -->
+
+<div class="padding" ng-controller="GettingStartedController">
 <super-navbar>
   <super-navbar-title>
-    PottyPointr
-  </super-navbar-title>
+Bathroom Details  </super-navbar-title>
 </super-navbar>
-      
+
+
 <div ng-controller="GettingStartedController">
-  <div id="googleMap"></div>
+  <div ng-repeat="bt in data">
+  	{{bt.gender}} | {{bt.room}}
+  <p ng-if="bt.numHandicap > 0">Handicap-friendly!</p><br>
+
+  </div>
+
+
+  
+</div>
+
 </div>
 
 
