@@ -9,6 +9,16 @@
       "location": "http://localhost/app/example/using-the-scanner.html"
     }
   ],
+  "drawers": {
+    "left": {
+      "id": "leftDrawer",
+      "location": "http://localhost/app/example/drawer.html",
+      "showOnAppLoad": false
+    },
+    "options": {
+      "animation": "swingingDoor"
+    }
+  },
   "tabs": [
     {
       "position": 0,
@@ -29,6 +39,9 @@
       "target_url": "http://google.com"
     }
   ],
+  "rootView": {
+    "location": "http://localhost/app/example/getting-started.html"
+  },
   "configuration": {
     "extra_response_headers": {}
   }

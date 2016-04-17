@@ -9,6 +9,23 @@ angular.module('example').controller('GettingStartedController', function($scope
 
   function createMap() {
     // instantiate map with default location
+    // supersonic.ui.views.current.whenVisible( function(){
+    // var drawerButton = new supersonic.ui.NavigationBarButton({    
+    //     title: "Filtres",
+    //     onTap: function(){    
+    //         supersonic.logger.debug("click");
+    //     }    
+    // });
+
+    // var navigationBarOptions = {    
+    //     buttons: {
+    //         left: [drawerButton]
+    //     }    
+    // };
+
+    // supersonic.ui.navigationBar.update(navigationBarOptions);
+    // });
+
     var map = new google.maps.Map(document.getElementById("googleMap"), {
       center: new google.maps.LatLng(42.057810, -87.675877),
       zoom: 18,
@@ -57,7 +74,7 @@ angular.module('example').controller('GettingStartedController', function($scope
         null, /* anchor is bottom center of the scaled image */
         new google.maps.Size(35, 35)
       );
-
+      var infowindow;
       angular.forEach($scope.data, function(bathroom) {
 
         var bathroomC = new google.maps.LatLng(bathroom.lat, bathroom.long);
@@ -75,18 +92,17 @@ angular.module('example').controller('GettingStartedController', function($scope
           });
         }
         marker.setMap(map);
-
-        var contentString = '<div class="mainContent">'+ bathroom.room + ' | ' + bathroom.gender +
-        '</div><div class="rating">&#9734&#9734&#9734&#9734&#9734</div>';
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
+        var contentString = '<a href="bathroom-details.html">'+ bathroom.room + ' | ' + bathroom.gender +
+        '</a><div class="rating">&#9734&#9734&#9734&#9734&#9734</div>';
 
         google.maps.event.addListener(marker, 'click', function() {
+          if (infowindow) infowindow.close();
+          infowindow = new google.maps.InfoWindow({
+            content: contentString
+          });
           infowindow.open(map, marker);
-          var view = new supersonic.ui.View("example#learn-more");
-          supersonic.ui.layers.push(view);
+          var view = new supersonic.ui.View("example#bathroom-details");
+          // supersonic.ui.layers.push(view);
         });
 
       });
@@ -137,3 +153,5 @@ angular.module('example').controller('GettingStartedController', function($scope
   }
 
 }); //close controller
+
+
