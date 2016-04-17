@@ -18,14 +18,31 @@ angular.module('example').controller('GettingStartedController', function($scope
   var locationPromise = getPosition();  // location data promise
   var dataPromise = getData();          // firebase data promise
 
+  $scope.malemarkers = [];
+  $scope.femalemarkers = [];
+
   $scope.config = {
     male: true,
     female: true
   }
 
-  supersonic.logger.log($scope.config.male);
-  supersonic.logger.log($scope.config.female);
+  $scope.$watch('config.male', function(newValue, oldValue) {
+    supersonic.logger.log('male used to be ' + oldValue + ' now its ' + newValue);
+    if(newValue != oldValue){
+        for(var i = 0; i < $scope.malemarkers.length; i++){
+            $scope.malemarkers[i].setVisible(newValue);
+        }
+    }
+  });
 
+    $scope.$watch('config.female', function(newValue, oldValue) {
+    supersonic.logger.log('female used to be ' + oldValue + ' now its ' + newValue);
+    if(newValue != oldValue){
+        for(var i = 0; i < $scope.femalemarkers.length; i++){
+            $scope.femalemarkers[i].setVisible(newValue);
+        }
+    }
+  });
   function createMap() {
     // instantiate map with default location
     // supersonic.ui.views.current.whenVisible( function(){
@@ -105,12 +122,15 @@ angular.module('example').controller('GettingStartedController', function($scope
             position: bathroomC,
             icon: female
           });
+          $scope.femalemarkers.push(marker);
         } else {
           marker = new google.maps.Marker({
             position: bathroomC,
             icon: male
           });
+          $scope.malemarkers.push(marker);
         }
+
         marker.setMap(map);
         var contentString = '<a href="bathroom-details.html">'+ bathroom.room + ' | ' + bathroom.gender +
         '</a><div class="rating">&#9734&#9734&#9734&#9734&#9734</div>';
