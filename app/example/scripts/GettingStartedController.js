@@ -4,8 +4,14 @@ angular.module('example').controller('GettingStartedController', function($scope
 
   var locationPromise = getPosition();  // location data promise
   var dataPromise = getData();          // firebase data promise
-  $scope.male = true;
-  supersonic.logger.log($scope.male);
+
+  $scope.config = {
+    male: true,
+    female: true
+  }
+
+  supersonic.logger.log($scope.config.male);
+  supersonic.logger.log($scope.config.female);
 
   function createMap() {
     // instantiate map with default location
@@ -13,6 +19,7 @@ angular.module('example').controller('GettingStartedController', function($scope
     // var drawerButton = new supersonic.ui.NavigationBarButton({    
     //     title: "Filtres",
     //     onTap: function(){    
+
     //         supersonic.logger.debug("click");
     //     }    
     // });

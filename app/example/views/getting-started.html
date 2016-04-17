@@ -8,25 +8,30 @@
       
 <div ng-controller="GettingStartedController">
   <ul class="list">
+    
     <li class="item item-toggle">
       Male
       <label class="toggle toggle-assertive">
-        <input type="checkbox" ng-model="male">
+        <input type="checkbox" ng-model="config.male">
         <div class="track">
           <div class="handle"></div>
         </div>
       </label>
     </li>
 
+    Male: {{config.male}}
+
     <li class="item item-toggle">
       Female
       <label class="toggle toggle-assertive">
-        <input type="checkbox">
+        <input type="checkbox" ng-model="config.female">
         <div class="track">
           <div class="handle"></div>
         </div>
       </label>
     </li>
+
+    Female: {{config.female}}
   </ul>
 
 
