@@ -20,6 +20,7 @@ angular.module('example').controller('GettingStartedController', function($scope
 
   $scope.malemarkers = [];
   $scope.femalemarkers = [];
+  $scope.current_bt = null;
 
   $scope.config = {
     male: true,
@@ -43,21 +44,23 @@ angular.module('example').controller('GettingStartedController', function($scope
         }
     }
   });
+
+
   function createMap() {
     // instantiate map with default location
     // supersonic.ui.views.current.whenVisible( function(){
-    // var drawerButton = new supersonic.ui.NavigationBarButton({    
+    // var drawerButton = new supersonic.ui.NavigationBarButton({
     //     title: "Filtres",
-    //     onTap: function(){    
+    //     onTap: function(){
 
     //         supersonic.logger.debug("click");
-    //     }    
+    //     }
     // });
 
-    // var navigationBarOptions = {    
+    // var navigationBarOptions = {
     //     buttons: {
     //         left: [drawerButton]
-    //     }    
+    //     }
     // };
 
     // supersonic.ui.navigationBar.update(navigationBarOptions);
@@ -131,18 +134,28 @@ angular.module('example').controller('GettingStartedController', function($scope
           $scope.malemarkers.push(marker);
         }
 
+        marker.br = bathroom;
+
+
         marker.setMap(map);
         var contentString = '<a href="bathroom-details.html">'+ bathroom.room + ' | ' + bathroom.gender +
         '</a><div class="rating">&#9734&#9734&#9734&#9734&#9734</div>';
 
         google.maps.event.addListener(marker, 'click', function() {
           if (infowindow) infowindow.close();
+
+          $scope.current_bt = marker.br;
+          supersonic.logger.log($scope.current_bt);
+
+
           infowindow = new google.maps.InfoWindow({
             content: contentString
           });
           infowindow.open(map, marker);
-          var view = new supersonic.ui.View("example#bathroom-details");
-          // supersonic.ui.layers.push(view);
+
+
+          //var view = new supersonic.ui.View("example#bathroom-details");
+          //supersonic.ui.layers.push(view);
         });
 
       });
@@ -169,7 +182,21 @@ angular.module('example').controller('GettingStartedController', function($scope
       deferred.reject("The read failed: " + str(errorObject.code));
     });
 
+    // giveReviews(8, "Good");  // it works
+
     return deferred.promise;
+  }
+
+  function giveReviews(index, text) {
+    var deferred = $q.defer();
+    var ref = new Firebase('https://scorching-fire-6140.firebaseio.com/');
+
+    var brref = ref.child(index.toString());
+    var reviewref = brref.child("reviews");
+    reviewref.push({
+      review : text
+    });
+
   }
 
   /*
@@ -193,8 +220,6 @@ angular.module('example').controller('GettingStartedController', function($scope
   }
 
 }); //close controller
-
-
 
 angular
   .module('example')

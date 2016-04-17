@@ -1,22 +1,21 @@
 
 <!-- <link rel='stylesheet' type='text/css' href='css/bathroom-details.css'> -->
 
-<div class="padding" ng-controller="GettingStartedController">
+<div class="padding">
 <super-navbar>
   <super-navbar-title>
-Bathroom Details  </super-navbar-title>
+    Bathroom Details
+  </super-navbar-title>
 </super-navbar>
 
 
-<div ng-controller="GettingStartedController">
+  <div ng-controller="GettingStartedController">
   <div ng-repeat="bt in data">
-  	{{bt.gender}} | {{bt.room}}
-  <p ng-if="bt.numHandicap > 0">Handicap-friendly!</p><br>
+    	{{bt.gender}} | {{bt.room}}
+    <p ng-if="bt.numHandicap > 0">Handicap-friendly!</p><br>
+  </div>
+  {{config.male}}
+  {{current_bt}}
 
   </div>
-
-
-  
-</div>
-
 </div>
