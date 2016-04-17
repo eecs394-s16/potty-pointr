@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="/app/common/stylesheets/application.css" />
   <link rel="import" href="/components/supersonic/components/import.html">
 
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <script src="http://maps.googleapis.com/maps/api/js"></script>
+
   <script src="http://localhost/cordova.js"></script>
   <script src="/components/steroids-js/steroids.js"></script>
   <script src="/components/angular/angular.js"></script>
@@ -31,71 +34,40 @@
 </head>
 <body ng-app="example">
 
-<head>
-  <script>
-  window.addEventListener('WebComponentsReady', function() {
-    supersonic.app.splashscreen.hide();
-  });
-  </script>
-  <!-- Cloud resource definition file for Supersonic Data -->
-  <script src="/cloud-resources.js"></script>
-<script src="http://maps.googleapis.com/maps/api/js"></script>
-
-
-<script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-
 <link rel='stylesheet' type='text/css' href='css/getting-started.css'>
 
-</head>
+<super-navbar>
+  <super-navbar-title>
+    PottyPointr
+  </super-navbar-title>
+</super-navbar>
 
-<body>
 <div ng-controller="GettingStartedController">
+  <ul class="list">
+    <li class="item item-toggle">
+      Male
+      <label class="toggle toggle-assertive">
+        <input type="checkbox" ng-model="male">
+        <div class="track">
+          <div class="handle"></div>
+        </div>
+      </label>
+    </li>
 
-  <super-navbar>
-    <super-navbar-title>
-      PottyPointr
-    </super-navbar-title>
-  </super-navbar>
+    <li class="item item-toggle">
+      Female
+      <label class="toggle toggle-assertive">
+        <input type="checkbox">
+        <div class="track">
+          <div class="handle"></div>
+        </div>
+      </label>
+    </li>
+  </ul>
 
-<div id="googleMap"></div>
 
-  <super-navigate view-id="using-the-scanner">
-    <button class="button button-block button-positive icon-left super-wand">Using the AppGyver Scanner</button>
-  </super-navigate>
-
-  <super-navigate view-id="learn-more">
-    Learn more
-  </super-navigate>
-
-<!--   <div ng-repeat="bathroom in data">
-    {{bathroom.room}} | {{bathroom.gender}}
-  </div> -->
-
-<ul class="list">
-  <li class="item item-toggle">
-    Male
-    <label class="toggle toggle-assertive">
-      <input type="checkbox">
-      <div class="track">
-        <div class="handle"></div>
-      </div>
-    </label>
-  </li>
-
-  <li class="item item-toggle">
-    Female
-    <label class="toggle toggle-assertive">
-      <input type="checkbox">
-      <div class="track">
-        <div class="handle"></div>
-      </div>
-    </label>
-  </li>
-</ul>
+  <div id="googleMap"></div>
 </div>
-
-</body>
 
 
 </body>
