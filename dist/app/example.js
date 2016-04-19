@@ -5,10 +5,12 @@ angular.module('example', [
 
 angular
   .module('example')
-  .controller('BathroomDetailsController', function($scope, $q, supersonic) {
+  .controller('detailCtrl', function($scope, $q, supersonic) {
 
     var bathroom_id = steroids.view.params.id;
     supersonic.logger.info(bathroom_id);
+
+    $scope.bathroom_id = bathroom_id;
 
     var dataPromise = getData();          // firebase data promise
 
@@ -54,7 +56,7 @@ angular
 
 angular
   .module('example')
-  .controller('GettingStartedController', function($scope, $q, supersonic) {
+  .controller('mainCtrl', function($scope, $q, supersonic) {
 
   google.maps.event.addDomListener(window, 'load', createMap);
 
@@ -168,7 +170,7 @@ angular
 
         marker.setMap(map);
         var contentString =
-          '<super-navigate view-id="example#bathroom-details?id= ' + bathroom.room + '">\
+          '<super-navigate view-id="example#detail?id= ' + bathroom.room + '">\
             <button class="button button-block button-positive">' + bathroom.room + ' Details...</button>\
           </super-navigate>\
           <div class="rating">&#9734 &#9734 &#9734 &#9734 &#9734</div>';
@@ -246,17 +248,3 @@ angular
   }
 
 }); //close controller
-
-angular
-  .module('example')
-  .controller('LearnMoreController', function($scope, supersonic) {
-
-    $scope.navbarTitle = "Learn More";
-
-  });
-
-angular
-  .module('example')
-  .controller('SettingsController', function($scope, supersonic) {
-    $scope.navbarTitle = "Settings";
-  });

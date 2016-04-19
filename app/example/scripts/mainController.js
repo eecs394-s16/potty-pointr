@@ -1,6 +1,6 @@
 angular
   .module('example')
-  .controller('GettingStartedController', function($scope, $q, supersonic) {
+  .controller('mainCtrl', function($scope, $q, supersonic) {
 
   google.maps.event.addDomListener(window, 'load', createMap);
 
@@ -114,7 +114,7 @@ angular
 
         marker.setMap(map);
         var contentString =
-          '<super-navigate view-id="example#bathroom-details?id= ' + bathroom.room + '">\
+          '<super-navigate view-id="example#detail?id= ' + bathroom.room + '">\
             <button class="button button-block button-positive">' + bathroom.room + ' Details...</button>\
           </super-navigate>\
           <div class="rating">&#9734 &#9734 &#9734 &#9734 &#9734</div>';

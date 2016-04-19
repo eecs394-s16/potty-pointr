@@ -1,12 +1,8 @@
 {
   "preloads": [
     {
-      "id": "learn-more",
-      "location": "http://localhost/app/example/learn-more.html"
-    },
-    {
-      "id": "using-the-scanner",
-      "location": "http://localhost/app/example/using-the-scanner.html"
+      "id": "detail",
+      "location": "http://localhost/app/example/detail.html"
     }
   ],
   "drawers": {
@@ -21,7 +17,7 @@
   },
   "tabs": [],
   "rootView": {
-    "location": "http://localhost/app/example/getting-started.html"
+    "location": "http://localhost/app/example/index.html"
   },
   "configuration": {
     "extra_response_headers": {}

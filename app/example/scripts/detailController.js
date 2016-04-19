@@ -1,9 +1,11 @@
 angular
   .module('example')
-  .controller('BathroomDetailsController', function($scope, $q, supersonic) {
+  .controller('detailCtrl', function($scope, $q, supersonic) {
 
     var bathroom_id = steroids.view.params.id;
     supersonic.logger.info(bathroom_id);
+
+    $scope.bathroom_id = bathroom_id;
 
     var dataPromise = getData();          // firebase data promise
 
