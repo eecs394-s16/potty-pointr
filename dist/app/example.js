@@ -5,67 +5,97 @@ angular.module('example', [
 
 angular
   .module('example')
-  .controller('BathroomDetailsController', function($scope, supersonic) {
+  .controller('BathroomDetailsController', function($scope, $q, supersonic) {
 
-    $scope.navbarTitle = "Bathroom Details";
+    var bathroom_id = steroids.view.params.id;
+    supersonic.logger.info(bathroom_id);
+
+    var dataPromise = getData();          // firebase data promise
+
+    /*
+     * Guaranteed not to run until Firebase data is successfully received
+     * $scope.data contains firebase data
+     */
+    dataPromise.then(function(message) {
+      supersonic.logger.info($scope.data);
+
+      for (var bath in $scope.data) {
+        if (bath.room === bathroom_id) {
+          $scope.currentBath = bath;
+        }
+      }
+    }, function(reason) {
+      // Something went wrong
+      supersonic.logger.log("dataPromise: " + reason);
+    }, null);
+
+    /*
+     * Retrieve data from Firebase - asynchronous deferred/promise schema used
+     */
+    function getData() {
+      var deferred = $q.defer();
+      var ref = new Firebase('https://scorching-fire-6140.firebaseio.com/');
+
+      ref.on("value", function(snapshot) {
+        $scope.data = snapshot.val();
+        // supersonic.logger.info("(Data) Success!");
+        deferred.resolve("(Data) Success!");
+      }, function (errorObject) {
+        // supersonic.logger.info("The read failed: " + str(errorObject.code));
+        deferred.reject("The read failed: " + str(errorObject.code));
+      });
+
+      // giveReviews(8, "Good");  // it works
+
+      return deferred.promise;
+    }
 
   });
 
-angular.module('example').controller('GettingStartedController', function($scope, $q, supersonic) {
+angular
+  .module('example')
+  .controller('GettingStartedController', function($scope, $q, supersonic) {
 
   google.maps.event.addDomListener(window, 'load', createMap);
 
   var locationPromise = getPosition();  // location data promise
   var dataPromise = getData();          // firebase data promise
 
-  $scope.malemarkers = [];
-  $scope.femalemarkers = [];
-  $scope.current_bt = null;
-
+  /*
+   * FILTERING
+   * Everything to do with filtering markers
+   */
+  // If true, show bathrooms of that gender
   $scope.config = {
     male: true,
     female: true
-  }
+  };
+
+  // Store list of male and female restrooms for filtering purposes
+  $scope.malemarkers = [];
+  $scope.femalemarkers = [];
 
   $scope.$watch('config.male', function(newValue, oldValue) {
-    supersonic.logger.log('male used to be ' + oldValue + ' now its ' + newValue);
-    if(newValue != oldValue){
-        for(var i = 0; i < $scope.malemarkers.length; i++){
-            $scope.malemarkers[i].setVisible(newValue);
-        }
+    if (newValue != oldValue) {
+      for (var i = 0; i < $scope.malemarkers.length; i++) {
+        $scope.malemarkers[i].setVisible(newValue);
+      }
     }
   });
 
-    $scope.$watch('config.female', function(newValue, oldValue) {
-    supersonic.logger.log('female used to be ' + oldValue + ' now its ' + newValue);
-    if(newValue != oldValue){
-        for(var i = 0; i < $scope.femalemarkers.length; i++){
-            $scope.femalemarkers[i].setVisible(newValue);
-        }
+  $scope.$watch('config.female', function(newValue, oldValue) {
+    if (newValue != oldValue) {
+      for (var i = 0; i < $scope.femalemarkers.length; i++) {
+        $scope.femalemarkers[i].setVisible(newValue);
+      }
     }
   });
 
-
+  /*
+   * MAP DRAWING
+   * Everything to do with creating map and adding markers
+   */
   function createMap() {
-    // instantiate map with default location
-    // supersonic.ui.views.current.whenVisible( function(){
-    // var drawerButton = new supersonic.ui.NavigationBarButton({
-    //     title: "Filtres",
-    //     onTap: function(){
-
-    //         supersonic.logger.debug("click");
-    //     }
-    // });
-
-    // var navigationBarOptions = {
-    //     buttons: {
-    //         left: [drawerButton]
-    //     }
-    // };
-
-    // supersonic.ui.navigationBar.update(navigationBarOptions);
-    // });
-
     var map = new google.maps.Map(document.getElementById("googleMap"), {
       center: new google.maps.LatLng(42.057810, -87.675877),
       zoom: 18,
@@ -87,8 +117,7 @@ angular.module('example').controller('GettingStartedController', function($scope
         position: myCoordinates
       });
       marker.setMap(map);
-
-      map.panTo(myCoordinates);
+      // map.panTo(myCoordinates);
 
     }, function(reason) {
       // Something went wrong
@@ -134,28 +163,26 @@ angular.module('example').controller('GettingStartedController', function($scope
           $scope.malemarkers.push(marker);
         }
 
+        // store bathroom data in marker itself so we can retrieve it later
         marker.br = bathroom;
 
-
         marker.setMap(map);
-        var contentString = '<a href="bathroom-details.html">'+ bathroom.room + ' | ' + bathroom.gender +
-        '</a><div class="rating">&#9734&#9734&#9734&#9734&#9734</div>';
+        var contentString =
+          '<super-navigate view-id="example#bathroom-details?id= ' + bathroom.room + '">\
+            <button class="button button-block button-positive">' + bathroom.room + ' Details...</button>\
+          </super-navigate>\
+          <div class="rating">&#9734 &#9734 &#9734 &#9734 &#9734</div>';
 
         google.maps.event.addListener(marker, 'click', function() {
           if (infowindow) infowindow.close();
 
-          $scope.current_bt = marker.br;
-          supersonic.logger.log($scope.current_bt);
-
+          supersonic.logger.log("You clicked on a marker:");
 
           infowindow = new google.maps.InfoWindow({
             content: contentString
           });
           infowindow.open(map, marker);
 
-
-          //var view = new supersonic.ui.View("example#bathroom-details");
-          //supersonic.ui.layers.push(view);
         });
 
       });
@@ -175,10 +202,10 @@ angular.module('example').controller('GettingStartedController', function($scope
 
     ref.on("value", function(snapshot) {
       $scope.data = snapshot.val();
-      supersonic.logger.info("(Data) Success!");
+      // supersonic.logger.info("(Data) Success!");
       deferred.resolve("(Data) Success!");
     }, function (errorObject) {
-      supersonic.logger.info("The read failed: " + str(errorObject.code));
+      // supersonic.logger.info("The read failed: " + str(errorObject.code));
       deferred.reject("The read failed: " + str(errorObject.code));
     });
 
@@ -196,7 +223,6 @@ angular.module('example').controller('GettingStartedController', function($scope
     reviewref.push({
       review : text
     });
-
   }
 
   /*
