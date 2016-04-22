@@ -50,11 +50,26 @@
       <input type="text" ng-model="reviewtext">
     </label>
 
-
     <br>
+
+    <div class="button-bar">
+      <a class="button super-star" ng-click="giveRating(1)"> 1 </a>
+      <a class="button super-star" ng-click="giveRating(2)"> 2 </a>
+      <a class="button super-star" ng-click="giveRating(3)"> 3 </a>
+      <a class="button super-star" ng-click="giveRating(4)"> 4 </a>
+      <a class="button super-star" ng-click="giveRating(5)"> 5 </a>
+    </div>
+    <br>
+
+    Rating: {{rating}}
+
+    <br><br>
     <button class="button button-big" ng-click="giveReviews()">
       Submit Review
     </button>
+    <br>
+    {{submitInfo}}
+
   </div>
 
 
