@@ -62,7 +62,7 @@ angular
       //var brref = ref.child(index.toString());
       var reviewref = ref.child("reviews");
       var the_review = {
-        name : $scope.bathroom_id
+        name : $scope.bathroom_id,
         review : $scope.reviewtext
       };
       reviewref.push(the_review);
