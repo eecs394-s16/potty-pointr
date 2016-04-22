@@ -47,4 +47,29 @@ angular
       return deferred.promise;
     }
 
+
+
+    /* Reviews */
+
+    $scope.reviewtext = "";
+
+    $scope.giveReviews = function() {
+      supersonic.logger.log("submit button is clicked!");
+
+      var deferred = $q.defer();
+      var ref = new Firebase('https://scorching-fire-6140.firebaseio.com/');
+
+      //var brref = ref.child(index.toString());
+      var reviewref = ref.child("reviews");
+      var the_review = {
+        name : $scope.bathroom_id
+        review : $scope.reviewtext
+      };
+      reviewref.push(the_review);
+
+      supersonic.logger.log("Review " + $scope.reviewtext + " submitted for " + $scope.bathroom_id);
+
+    };
+
+
   });
