@@ -2,15 +2,21 @@
 
 module.exports =
 
+  # tabs: [
+  #   {
+  #     title: "Index"
+  #     id: "index"
+  #     location: "example#index"
+  #   },
+  #   {
+  #     title: "Detailed View"
+  #     id: "detail"
+  #     location: "example#detail"
+  #   }
+  # ]
+
   rootView:
      location: "example#index"
-
-  preloads: [
-    {
-      id: "detail"
-      location: "example#detail"
-    }
-  ]
 
   drawers:
     left:

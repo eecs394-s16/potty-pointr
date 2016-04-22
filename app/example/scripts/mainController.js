@@ -7,6 +7,8 @@ angular
   var locationPromise = getPosition();  // location data promise
   var dataPromise = getData();          // firebase data promise
 
+
+
   /*
    * FILTERING
    * Everything to do with filtering markers
@@ -36,6 +38,8 @@ angular
       }
     }
   });
+
+
 
   /*
    * MAP DRAWING
@@ -114,7 +118,7 @@ angular
 
         marker.setMap(map);
         var contentString =
-          '<super-navigate view-id="example#detail?id= ' + bathroom.room + '">\
+          '<super-navigate view-id="example#detail?data= ' + angular.toJson(bathroom) + '">\
             <button class="button button-block button-positive">' + bathroom.room + ' Details...</button>\
           </super-navigate>\
           <div class="rating">&#9734 &#9734 &#9734 &#9734 &#9734</div>';
@@ -122,22 +126,21 @@ angular
         google.maps.event.addListener(marker, 'click', function() {
           if (infowindow) infowindow.close();
 
-          supersonic.logger.log("You clicked on a marker:");
+          supersonic.logger.log(angular.toJson(bathroom));
 
           infowindow = new google.maps.InfoWindow({
             content: contentString
           });
           infowindow.open(map, marker);
-
         });
-
       });
-
     }, function(reason) {
       // Something went wrong
       supersonic.logger.log("dataPromise: " + reason);
     }, null);
   }
+
+
 
   /*
    * Retrieve data from Firebase - asynchronous deferred/promise schema used
@@ -170,6 +173,8 @@ angular
       review : text
     });
   }
+
+
 
   /*
    *  Retrieve GPS data using supersonic - asynchronous deferred/promise schema used

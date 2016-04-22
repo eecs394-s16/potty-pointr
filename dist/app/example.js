@@ -5,53 +5,14 @@ angular.module('example', [
 
 angular
   .module('example')
-  .controller('detailCtrl', function($scope, $q, supersonic) {
+  .controller('detailCtrl', function($scope, supersonic) {
+    // $scope.example = steroids.view.params.data;
+    supersonic.logger.log("#1");
 
-    var bathroom_id = steroids.view.params.id;
-    supersonic.logger.info(bathroom_id);
+    $scope.data = angular.fromJson(steroids.view.params.data);
+    supersonic.logger.log("#2");
 
-    $scope.bathroom_id = bathroom_id;
-
-    var dataPromise = getData();          // firebase data promise
-
-    /*
-     * Guaranteed not to run until Firebase data is successfully received
-     * $scope.data contains firebase data
-     */
-    dataPromise.then(function(message) {
-      supersonic.logger.info($scope.data);
-
-      for (var bath in $scope.data) {
-        if (bath.room === bathroom_id) {
-          $scope.currentBath = bath;
-        }
-      }
-    }, function(reason) {
-      // Something went wrong
-      supersonic.logger.log("dataPromise: " + reason);
-    }, null);
-
-    /*
-     * Retrieve data from Firebase - asynchronous deferred/promise schema used
-     */
-    function getData() {
-      var deferred = $q.defer();
-      var ref = new Firebase('https://scorching-fire-6140.firebaseio.com/');
-
-      ref.on("value", function(snapshot) {
-        $scope.data = snapshot.val();
-        // supersonic.logger.info("(Data) Success!");
-        deferred.resolve("(Data) Success!");
-      }, function (errorObject) {
-        // supersonic.logger.info("The read failed: " + str(errorObject.code));
-        deferred.reject("The read failed: " + str(errorObject.code));
-      });
-
-      // giveReviews(8, "Good");  // it works
-
-      return deferred.promise;
-    }
-
+    document.getElementById("test").innerHTML = "whatever";
   });
 
 angular
@@ -62,6 +23,8 @@ angular
 
   var locationPromise = getPosition();  // location data promise
   var dataPromise = getData();          // firebase data promise
+
+
 
   /*
    * FILTERING
@@ -92,6 +55,8 @@ angular
       }
     }
   });
+
+
 
   /*
    * MAP DRAWING
@@ -170,7 +135,7 @@ angular
 
         marker.setMap(map);
         var contentString =
-          '<super-navigate view-id="example#detail?id= ' + bathroom.room + '">\
+          '<super-navigate view-id="example#detail?data= ' + angular.toJson(bathroom) + '">\
             <button class="button button-block button-positive">' + bathroom.room + ' Details...</button>\
           </super-navigate>\
           <div class="rating">&#9734 &#9734 &#9734 &#9734 &#9734</div>';
@@ -178,22 +143,21 @@ angular
         google.maps.event.addListener(marker, 'click', function() {
           if (infowindow) infowindow.close();
 
-          supersonic.logger.log("You clicked on a marker:");
+          supersonic.logger.log(angular.toJson(bathroom));
 
           infowindow = new google.maps.InfoWindow({
             content: contentString
           });
           infowindow.open(map, marker);
-
         });
-
       });
-
     }, function(reason) {
       // Something went wrong
       supersonic.logger.log("dataPromise: " + reason);
     }, null);
   }
+
+
 
   /*
    * Retrieve data from Firebase - asynchronous deferred/promise schema used
@@ -226,6 +190,8 @@ angular
       review : text
     });
   }
+
+
 
   /*
    *  Retrieve GPS data using supersonic - asynchronous deferred/promise schema used
