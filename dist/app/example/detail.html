@@ -43,9 +43,14 @@
   </super-navbar>
 
   <h3>Bathroom Details</h3>
-  <!-- {{example}} -->
 
   <div id="test"></div>
+
+  <!-- <button type="button" ng-click="convert()">do the thing</button> -->
+
+  <div ng-repeat="(key, value) in sanitizedPayload">
+    <b>{{key}}:</b> {{value}}
+  </div>
 
 </div>
 

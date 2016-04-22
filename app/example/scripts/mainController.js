@@ -7,8 +7,6 @@ angular
   var locationPromise = getPosition();  // location data promise
   var dataPromise = getData();          // firebase data promise
 
-
-
   /*
    * FILTERING
    * Everything to do with filtering markers
@@ -112,21 +110,31 @@ angular
           });
           $scope.malemarkers.push(marker);
         }
-
-        // store bathroom data in marker itself so we can retrieve it later
-        marker.br = bathroom;
+        marker.bathroomData = bathroom;
 
         marker.setMap(map);
-        var contentString =
-          '<super-navigate view-id="example#detail?data= ' + angular.toJson(bathroom) + '">\
-            <button class="button button-block button-positive">' + bathroom.room + ' Details...</button>\
-          </super-navigate>\
-          <div class="rating">&#9734 &#9734 &#9734 &#9734 &#9734</div>';
 
         google.maps.event.addListener(marker, 'click', function() {
           if (infowindow) infowindow.close();
 
-          supersonic.logger.log(angular.toJson(bathroom));
+          var bathroomString = [];
+          for (var key in marker.bathroomData) {
+            if (marker.bathroomData.hasOwnProperty(key)) {
+              var value = marker.bathroomData[key];
+              bathroomString.push(key + ":" + value);
+            }
+          }
+
+          bathroomString = bathroomString.toString();
+          bathroomString = bathroomString.replace(/ /g, '%20');
+
+          supersonic.logger.log(bathroomString);
+
+          var contentString =
+            "<super-navigate view-id='example#detail?payload=" + bathroomString + "'>\
+              <button class='button button-block button-positive'> Details...</button>\
+            </super-navigate>\
+            <div class='rating'>&#9734 &#9734 &#9734 &#9734 &#9734</div>";
 
           infowindow = new google.maps.InfoWindow({
             content: contentString

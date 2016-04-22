@@ -6,13 +6,46 @@ angular.module('example', [
 angular
   .module('example')
   .controller('detailCtrl', function($scope, supersonic) {
-    // $scope.example = steroids.view.params.data;
-    supersonic.logger.log("#1");
+    $scope.payload = steroids.view.params.payload;
 
-    $scope.data = angular.fromJson(steroids.view.params.data);
-    supersonic.logger.log("#2");
+    function convert() {
 
-    document.getElementById("test").innerHTML = "whatever";
+      var payload = $scope.payload;
+
+      payload = payload.replace("%20", " ");
+      payload = payload.split(",");
+
+      var payloadObj = {};
+
+      // supersonic.logger.log(payload);
+
+      for (var i = 0; i < payload.length; i++) {
+
+        var key = payload[i].split(":")[0];
+        var val = payload[i].split(":")[1];
+
+        supersonic.logger.log(key);
+        supersonic.logger.log(val);
+
+        payloadObj[key] = val;
+      }
+
+      supersonic.logger.log(payloadObj);
+
+      $scope.sanitizedPayload = payloadObj;
+
+    }
+
+
+    $scope.$watch('payload', function(newValue, oldValue) {
+      convert();
+      // if (newValue != oldValue) {
+      //   convert();
+      // }
+    });
+
+
+
   });
 
 angular
@@ -23,8 +56,6 @@ angular
 
   var locationPromise = getPosition();  // location data promise
   var dataPromise = getData();          // firebase data promise
-
-
 
   /*
    * FILTERING
@@ -129,21 +160,31 @@ angular
           });
           $scope.malemarkers.push(marker);
         }
-
-        // store bathroom data in marker itself so we can retrieve it later
-        marker.br = bathroom;
+        marker.bathroomData = bathroom;
 
         marker.setMap(map);
-        var contentString =
-          '<super-navigate view-id="example#detail?data= ' + angular.toJson(bathroom) + '">\
-            <button class="button button-block button-positive">' + bathroom.room + ' Details...</button>\
-          </super-navigate>\
-          <div class="rating">&#9734 &#9734 &#9734 &#9734 &#9734</div>';
 
         google.maps.event.addListener(marker, 'click', function() {
           if (infowindow) infowindow.close();
 
-          supersonic.logger.log(angular.toJson(bathroom));
+          var bathroomString = [];
+          for (var key in marker.bathroomData) {
+            if (marker.bathroomData.hasOwnProperty(key)) {
+              var value = marker.bathroomData[key];
+              bathroomString.push(key + ":" + value);
+            }
+          }
+
+          bathroomString = bathroomString.toString();
+          bathroomString = bathroomString.replace(/ /g, '%20');
+
+          supersonic.logger.log(bathroomString);
+
+          var contentString =
+            "<super-navigate view-id='example#detail?payload=" + bathroomString + "'>\
+              <button class='button button-block button-positive'> Details...</button>\
+            </super-navigate>\
+            <div class='rating'>&#9734 &#9734 &#9734 &#9734 &#9734</div>";
 
           infowindow = new google.maps.InfoWindow({
             content: contentString
