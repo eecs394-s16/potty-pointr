@@ -1,10 +1,4 @@
 {
-  "preloads": [
-    {
-      "id": "detail",
-      "location": "http://localhost/app/example/detail.html"
-    }
-  ],
   "drawers": {
     "left": {
       "id": "leftDrawer",

@@ -1,53 +1,27 @@
 angular
   .module('example')
-  .controller('detailCtrl', function($scope, $q, supersonic) {
+  .controller('detailCtrl', function($scope, supersonic) {
+    $scope.payload = steroids.view.params.payload;
 
-    var bathroom_id = steroids.view.params.id;
-    supersonic.logger.info(bathroom_id);
+    function convert() {
+      var payload = $scope.payload;
 
-    $scope.bathroom_id = bathroom_id;
+      payload = payload.replace("%20", " ");
+      payload = payload.split(",");
 
-    var dataPromise = getData();          // firebase data promise
+      var payloadObj = {};
 
-    /*
-     * Guaranteed not to run until Firebase data is successfully received
-     * $scope.data contains firebase data
-     */
-    dataPromise.then(function(message) {
-      supersonic.logger.info($scope.data);
-
-      for (var bath in $scope.data) {
-        if (bath.room === bathroom_id) {
-          $scope.currentBath = bath;
-        }
+      for (var i = 0; i < payload.length; i++) {
+        var key = payload[i].split(":")[0];
+        var val = payload[i].split(":")[1];
+        payloadObj[key] = val;
       }
-    }, function(reason) {
-      // Something went wrong
-      supersonic.logger.log("dataPromise: " + reason);
-    }, null);
-
-    /*
-     * Retrieve data from Firebase - asynchronous deferred/promise schema used
-     */
-    function getData() {
-      var deferred = $q.defer();
-      var ref = new Firebase('https://scorching-fire-6140.firebaseio.com/');
-
-      ref.on("value", function(snapshot) {
-        $scope.data = snapshot.val();
-        // supersonic.logger.info("(Data) Success!");
-        deferred.resolve("(Data) Success!");
-      }, function (errorObject) {
-        // supersonic.logger.info("The read failed: " + str(errorObject.code));
-        deferred.reject("The read failed: " + str(errorObject.code));
-      });
-
-      // giveReviews(8, "Good");  // it works
-
-      return deferred.promise;
+      $scope.sanitizedPayload = payloadObj;
     }
 
-
+    $scope.$watch('payload', function(newValue, oldValue) {
+      convert();
+    });
 
     /* Reviews */
 
@@ -70,6 +44,4 @@ angular
       supersonic.logger.log("Review " + $scope.reviewtext + " submitted for " + $scope.bathroom_id);
 
     };
-
-
   });

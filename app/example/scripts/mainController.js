@@ -37,6 +37,8 @@ angular
     }
   });
 
+
+
   /*
    * MAP DRAWING
    * Everything to do with creating map and adding markers
@@ -108,36 +110,45 @@ angular
           });
           $scope.malemarkers.push(marker);
         }
-
-        // store bathroom data in marker itself so we can retrieve it later
-        marker.br = bathroom;
+        marker.bathroomData = bathroom;
 
         marker.setMap(map);
-        var contentString =
-          '<super-navigate view-id="example#detail?id= ' + bathroom.room + '">\
-            <button class="button button-block button-positive">' + bathroom.room + ' Details...</button>\
-          </super-navigate>\
-          <div class="rating">&#9734 &#9734 &#9734 &#9734 &#9734</div>';
 
         google.maps.event.addListener(marker, 'click', function() {
           if (infowindow) infowindow.close();
 
-          supersonic.logger.log("You clicked on a marker:");
+          var bathroomString = [];
+          for (var key in marker.bathroomData) {
+            if (marker.bathroomData.hasOwnProperty(key)) {
+              var value = marker.bathroomData[key];
+              bathroomString.push(key + ":" + value);
+            }
+          }
+
+          bathroomString = bathroomString.toString();
+          bathroomString = bathroomString.replace(/ /g, '%20');
+
+          supersonic.logger.log(bathroomString);
+
+          var contentString =
+            "<super-navigate view-id='example#detail?payload=" + bathroomString + "'>\
+              <button class='button button-block button-positive'> Details...</button>\
+            </super-navigate>\
+            <div class='rating'>&#9734 &#9734 &#9734 &#9734 &#9734</div>";
 
           infowindow = new google.maps.InfoWindow({
             content: contentString
           });
           infowindow.open(map, marker);
-
         });
-
       });
-
     }, function(reason) {
       // Something went wrong
       supersonic.logger.log("dataPromise: " + reason);
     }, null);
   }
+
+
 
   /*
    * Retrieve data from Firebase - asynchronous deferred/promise schema used
@@ -170,6 +181,8 @@ angular
       review : text
     });
   }
+
+
 
   /*
    *  Retrieve GPS data using supersonic - asynchronous deferred/promise schema used

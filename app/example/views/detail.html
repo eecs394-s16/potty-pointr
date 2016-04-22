@@ -7,19 +7,21 @@
   </super-navbar>
 
   <h3>Bathroom Details</h3>
-  {{bathroom_id}}
+
+  <div ng-repeat="(key, value) in sanitizedPayload">
+    <b>{{key}}:</b> {{value}}
+  </div>
 
   <div class="container">
     <label class="item item-input" id="review">
       <input type="text" ng-model="reviewtext">
     </label>
 
-
     <br>
+
     <button class="button button-big" ng-click="giveReviews()">
       Submit Review
     </button>
+
   </div>
-
-
 </div>
