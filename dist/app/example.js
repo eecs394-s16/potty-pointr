@@ -83,28 +83,37 @@ angular
   //supersonic.logger.info("floor number: " + $scope.config.floornum);
 
   // Store list of male and female restrooms for filtering purposes
-  $scope.malemarkers = [][];
-  $scope.femalemarkers = [][];
+  $scope.malemarkers = [[]];
+  $scope.femalemarkers = [[]];
 
-  $scope.$watch('config.male', function(newValue, oldValue) {
-    if (newValue != oldValue) {
-      for (var i = 0; i < $scope.malemarkers[$scope.config.floornum].length; i++) {
-        $scope.malemarkers[$scope.config.floornum][i].setVisible(newValue);
+  // $scope.$watch('config.male', function(newValue, oldValue) {
+  //   if (newValue != oldValue) {
+  //     for (var i = 0; i < $scope.malemarkers[$scope.config.floornum].length; i++) {
+  //       $scope.malemarkers[$scope.config.floornum][i].setVisible(newValue);
+  //     }
+  //   }
+  // });
+
+  // $scope.$watch('config.female', function(newValue, oldValue) {
+  //   if (newValue != oldValue) {
+  //     for (var i = 0; i < $scope.femalemarkers[$scope.config.floornum].length; i++) {
+  //       $scope.femalemarkers[$scope.config.floornum][i].setVisible(newValue);
+  //     }
+  //   }
+  // });
+
+  // $scope.$watch('config.floornum', function(newValue, oldValue) {
+  //   if (newValue != oldValue) {
+  //     supersonic.logger.info("floor number: " + newValue);
+  //   }
+  // })
+
+  $scope.$watch('config', function(newValue, oldValue) {    
+    for (var i = 0; i < $scope.malemarkers.length; i++) {
+      for (var j = 0; j < $scope.malemarkers[i].length; j++) {
+        var show = oldValue.male && oldValue.floornum == i;        
+        $scope.malemarkers[$scope.config.floornum][i][j].setVisible(show);
       }
-    }
-  });
-
-  $scope.$watch('config.female', function(newValue, oldValue) {
-    if (newValue != oldValue) {
-      for (var i = 0; i < $scope.femalemarkers[$scope.config.floornum].length; i++) {
-        $scope.femalemarkers[$scope.config.floornum][i].setVisible(newValue);
-      }
-    }
-  });
-
-  $scope.$watch('config.floornum', function(newValue, oldValue) {
-    if (newValue != oldValue) {
-      supersonic.logger.info("floor number: " + newValue);
     }
   })
 
@@ -173,12 +182,19 @@ angular
             position: bathroomC,
             icon: female
           });
+
+          if(!$scope.femalemarkers[bathroom.floor]){
+            $scope.femalemarkers[bathroom.floor] = [];
+          }
           $scope.femalemarkers[bathroom.floor].push(marker);
         } else {
           marker = new google.maps.Marker({
             position: bathroomC,
             icon: male
           });
+          if(!$scope.malemarkers[bathroom.floor]){
+            $scope.malemarkers[bathroom.floor] = [];
+          }          
           $scope.malemarkers[bathroom.floor].push(marker);
         }
         marker.bathroomData = bathroom;
