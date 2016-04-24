@@ -5,7 +5,7 @@ angular.module('example', [
 
 angular
   .module('example')
-  .controller('detailCtrl', function($scope, supersonic) {
+  .controller('detailCtrl', function($scope, $q, supersonic) {
     $scope.payload = steroids.view.params.payload;
 
     function convert() {
@@ -44,13 +44,16 @@ angular
 
       var deferred = $q.defer();
       var ref = new Firebase('https://scorching-fire-6140.firebaseio.com/');
-
       //var brref = ref.child(index.toString());
       var reviewref = ref.child("reviews");
+
+      var review_text = $scope.reviewtext.replace(" ", "%20");
+      $scope.bathroom_id = 3;   // let's just do this for now
+
       var the_review = {
         name : $scope.bathroom_id,
         rating : $scope.rating,
-        review : $scope.reviewtext
+        review : review_text
       };
       reviewref.push(the_review);
 
