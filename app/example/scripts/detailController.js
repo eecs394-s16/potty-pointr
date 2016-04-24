@@ -3,6 +3,9 @@ angular
   .controller('detailCtrl', function($scope, $q, supersonic) {
     $scope.payload = steroids.view.params.payload;
 
+    $scope.reviews = [];
+
+
     function convert() {
       var payload = $scope.payload;
 
@@ -17,6 +20,9 @@ angular
         payloadObj[key] = val;
       }
       $scope.sanitizedPayload = payloadObj;
+      supersonic.logger.log($scope.sanitizedPayload.reviews.toString());
+
+      getReviews();
     }
 
     $scope.$watch('payload', function(newValue, oldValue) {
@@ -24,6 +30,41 @@ angular
     });
 
     /* Reviews */
+
+
+
+    function getReviews () {
+      var index = $scope.sanitizedPayload.bathroomId;
+      index = parseInt(index);
+      var deferred = $q.defer();
+      var ref = new Firebase('https://scorching-fire-6140.firebaseio.com/');
+      var brref = ref.child(index.toString());
+      var reviewref = brref.child("reviews");
+
+      //get review data
+      reviewref.on("value", function(snapshot) {
+        $scope.reviews = snapshot.val();
+          // var everything = snapshot.val();
+          // supersonic.logger.log(everything.toString());
+          // for (var r in everything) {
+          //   supersonic.logger.log(r.review.toString());
+          //   r.review = r.review.split("%20").join(" ");
+          //   $scope.reviews.push(r);
+          // }
+          // supersonic.logger.info("(Data) Success!");
+           deferred.resolve("(Data) Success!");
+        }, function (errorObject) {
+          // supersonic.logger.info("The read failed: " + str(errorObject.code));
+          deferred.reject("The read failed: " + str(errorObject.code));
+        });
+
+      return deferred.promise;
+
+    }
+
+
+
+
 
     $scope.reviewtext = "";
     $scope.rating = 3;
@@ -47,7 +88,7 @@ angular
       var brref = ref.child(index.toString());
       var reviewref = brref.child("reviews");
 
-      var review_text = $scope.reviewtext.replace(" ", "%20");
+      var review_text = $scope.reviewtext.split(' ').join("%20");
 
       var the_review = {
         name : index,

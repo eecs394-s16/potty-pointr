@@ -1,4 +1,8 @@
+<style type="text/css">
 
+.tab li{ margin-left: 40px; }
+
+</style>
 <div class="padding" ng-controller="detailCtrl">
 
   <super-navbar>
@@ -7,17 +11,31 @@
     </super-navbar-title>
   </super-navbar>
 
-  <h3>Bathroom Details</h3>
+  <h3>Location: {{sanitizedPayload.room}}</h3>
 
-  <div ng-repeat="(key, value) in sanitizedPayload">
-    <b>{{key}}:</b> {{value}}
-  </div>
+  <div>Building: {{sanitizedPayload.bldg}} </div>
+  <div>Gender: {{sanitizedPayload.gender}} </div>
+  <ul class="tab">Facilities:
+    <li >Drying Options: {{sanitizedPayload.dryingOptions}}
+    <li>Number for The Handicap: {{sanitizedPayload.numHandicap}}
+    <li>Number of Chemical Showers: {{sanitizedPayload.numChemShowers}}
+    <li>Number of Sinks: {{sanitizedPayload.numSinks}}
+    <li>Number of Stalls: {{sanitizedPayload.numStalls}}
+    <li>Number of Urinals: {{sanitizedPayload.numUrinals}}
+    <li>Number of Baby Changing Stations: {{sanitizedPayload.numStations}}
+    
+  </ul>
+  <br>
 
   <div class="container">
+    <a class="button" ng-click="getReviews()">Reviews</a>
+
+    <p ng-repeat="rv in reviews">
+      {{rv.rating}} | {{rv.review.split("%20").join(" ")}}
+    </p>
     <label class="item item-input" id="review">
       <input type="text" ng-model="reviewtext">
     </label>
-
     <br>
 
     <div class="button-bar">
