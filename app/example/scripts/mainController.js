@@ -11,31 +11,39 @@ angular
    * FILTERING
    * Everything to do with filtering markers
    */
-  // If true, show bathrooms of that gender
+  // If true, show bathrooms of that gender/floor
   $scope.config = {
     male: true,
-    female: true
+    female: true,
+    floornum: 1
   };
+  //supersonic.logger.info("floor number: " + $scope.config.floornum);
 
   // Store list of male and female restrooms for filtering purposes
-  $scope.malemarkers = [];
-  $scope.femalemarkers = [];
+  $scope.malemarkers = [][];
+  $scope.femalemarkers = [][];
 
   $scope.$watch('config.male', function(newValue, oldValue) {
     if (newValue != oldValue) {
-      for (var i = 0; i < $scope.malemarkers.length; i++) {
-        $scope.malemarkers[i].setVisible(newValue);
+      for (var i = 0; i < $scope.malemarkers[$scope.config.floornum].length; i++) {
+        $scope.malemarkers[$scope.config.floornum][i].setVisible(newValue);
       }
     }
   });
 
   $scope.$watch('config.female', function(newValue, oldValue) {
     if (newValue != oldValue) {
-      for (var i = 0; i < $scope.femalemarkers.length; i++) {
-        $scope.femalemarkers[i].setVisible(newValue);
+      for (var i = 0; i < $scope.femalemarkers[$scope.config.floornum].length; i++) {
+        $scope.femalemarkers[$scope.config.floornum][i].setVisible(newValue);
       }
     }
   });
+
+  $scope.$watch('config.floornum', function(newValue, oldValue) {
+    if (newValue != oldValue) {
+      supersonic.logger.info("floor number: " + newValue);
+    }
+  })
 
 
 
@@ -102,13 +110,13 @@ angular
             position: bathroomC,
             icon: female
           });
-          $scope.femalemarkers.push(marker);
+          $scope.femalemarkers[bathroom.floor].push(marker);
         } else {
           marker = new google.maps.Marker({
             position: bathroomC,
             icon: male
           });
-          $scope.malemarkers.push(marker);
+          $scope.malemarkers[bathroom.floor].push(marker);
         }
         marker.bathroomData = bathroom;
 
