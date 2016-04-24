@@ -48,11 +48,17 @@ angular
   $scope.$watch('config', function(newValue, oldValue) {    
     for (var i = 0; i < $scope.malemarkers.length; i++) {
       for (var j = 0; j < $scope.malemarkers[i].length; j++) {
-        var show = oldValue.male && oldValue.floornum == i;        
-        $scope.malemarkers[$scope.config.floornum][i][j].setVisible(show);
+        var show = newValue.male && newValue.floornum == i;        
+        $scope.malemarkers[i][j].setVisible(show);
       }
     }
-  })
+    for (var i = 0; i < $scope.femalemarkers.length; i++) {
+      for (var j = 0; j < $scope.femalemarkers[i].length; j++) {
+        var show = newValue.female && newValue.floornum == i;        
+        $scope.femalemarkers[i][j].setVisible(show);
+      }
+    }    
+  }, true);
 
 
 
