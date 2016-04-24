@@ -11,7 +11,7 @@
   <meta charset="utf8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-  <title>detail</title>
+  <title>drawer</title>
 
   <link rel="stylesheet" href="/components/supersonic/css/supersonic.css" />
   <link rel="stylesheet" href="/app/common/stylesheets/application.css" />
@@ -34,50 +34,42 @@
 </head>
 <body ng-app="example">
 
+<script>
+  document.addEventListener("touchmove", function(e){
+    e.preventDefault();
+  });
+</script>
 
-<div class="padding" ng-controller="detailCtrl">
+
+<div ng-controller="DrawerController">
 
   <super-navbar>
     <super-navbar-title>
-      Bathroom Details
+      Drawer
     </super-navbar-title>
   </super-navbar>
 
-  <h3>Bathroom Details</h3>
-
-  <div ng-repeat="(key, value) in sanitizedPayload">
-    <b>{{key}}:</b> {{value}}
-  </div>
-
-  <div class="container">
-    <label class="item item-input" id="review">
-      <input type="text" ng-model="reviewtext">
-    </label>
+  <div class="padding">
 
     <br>
-
-    <div class="button-bar">
-      <a class="button super-star" ng-click="giveRating(1)"> 1 </a>
-      <a class="button super-star" ng-click="giveRating(2)"> 2 </a>
-      <a class="button super-star" ng-click="giveRating(3)"> 3 </a>
-      <a class="button super-star" ng-click="giveRating(4)"> 4 </a>
-      <a class="button super-star" ng-click="giveRating(5)"> 5 </a>
-    </div>
+    <h3>Menu</h3>
     <br>
 
-    Rating: {{rating}}
-
-    <br><br>
-    <button class="button button-big" ng-click="giveReviews()">
-      Submit Review
+    
+    <br>
+    <button class="button button-positive button-block" ng-click="supersonic.ui.drawers.close()">
+      Close this menu
     </button>
-    <br>
-    {{submitInfo}}
 
   </div>
 
-  </div>
 </div>
+
+
+<ul class="list">
+  <li class="item" onclick="supersonic.ui.drawers.close()">Home</li>
+  <li class="item" onclick="supersonic.ui.drawers.close()">My Profile</li>
+</ul>
 
 
 </body>

@@ -11,7 +11,7 @@
   <meta charset="utf8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-  <title>detail</title>
+  <title>index</title>
 
   <link rel="stylesheet" href="/components/supersonic/css/supersonic.css" />
   <link rel="stylesheet" href="/app/common/stylesheets/application.css" />
@@ -34,49 +34,38 @@
 </head>
 <body ng-app="example">
 
+<super-navbar>
+  <super-navbar-title>
+    PottyPointr
+  </super-navbar-title>
+</super-navbar>
 
-<div class="padding" ng-controller="detailCtrl">
+<div ng-controller="mainCtrl">
+  <div id="googleMap"></div>
+  <ul class="list">
 
-  <super-navbar>
-    <super-navbar-title>
-      Bathroom Details
-    </super-navbar-title>
-  </super-navbar>
+    <li class="item item-toggle">
+      Male
+      <label class="toggle toggle-assertive">
+        <input type="checkbox" ng-model="config.male">
+        <div class="track">
+          <div class="handle"></div>
+        </div>
+      </label>
+    </li>
 
-  <h3>Bathroom Details</h3>
+    <li class="item item-toggle">
+      Female
+      <label class="toggle toggle-assertive">
+        <input type="checkbox" ng-model="config.female">
+        <div class="track">
+          <div class="handle"></div>
+        </div>
+      </label>
+    </li>
 
-  <div ng-repeat="(key, value) in sanitizedPayload">
-    <b>{{key}}:</b> {{value}}
-  </div>
+  </ul>
 
-  <div class="container">
-    <label class="item item-input" id="review">
-      <input type="text" ng-model="reviewtext">
-    </label>
-
-    <br>
-
-    <div class="button-bar">
-      <a class="button super-star" ng-click="giveRating(1)"> 1 </a>
-      <a class="button super-star" ng-click="giveRating(2)"> 2 </a>
-      <a class="button super-star" ng-click="giveRating(3)"> 3 </a>
-      <a class="button super-star" ng-click="giveRating(4)"> 4 </a>
-      <a class="button super-star" ng-click="giveRating(5)"> 5 </a>
-    </div>
-    <br>
-
-    Rating: {{rating}}
-
-    <br><br>
-    <button class="button button-big" ng-click="giveReviews()">
-      Submit Review
-    </button>
-    <br>
-    {{submitInfo}}
-
-  </div>
-
-  </div>
 </div>
 
 

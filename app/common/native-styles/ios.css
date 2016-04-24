@@ -2,6 +2,11 @@
  * These styles apply for native components on iOS.
  * Read more about native styles at http://docs.appgyver.com
  ***********************************************************/
+.button.active {
+  background-color: #27496d;
+  text-shadow: -1px 1px #193047;
+}
+
 
 navigation-bar {
   background-color: #6BDFC2;

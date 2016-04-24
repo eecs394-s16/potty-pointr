@@ -23,9 +23,10 @@ angular
       }
       $scope.sanitizedPayload = payloadObj;
     }
-<<<<<<< HEAD
 
-
+    $scope.$watch('payload', function(newValue, oldValue) {
+      convert();
+    });
 
     /* Reviews */
 
@@ -58,14 +59,6 @@ angular
       supersonic.logger.log("Review " + $scope.reviewtext + " submitted for " + $scope.bathroom_id);
 
     };
-
-
-=======
-    
-    $scope.$watch('payload', function(newValue, oldValue) {
-      convert();
-    });
->>>>>>> secondView
   });
 
 angular
@@ -200,11 +193,15 @@ angular
 
           supersonic.logger.log(bathroomString);
 
+          stars = "";
+          for (var j=0; j<bathroom.rating; j++){
+            stars+='&#9733';
+          }
+
           var contentString =
             "<super-navigate view-id='example#detail?payload=" + bathroomString + "'>\
-              <button class='button button-block button-positive'> Details...</button>\
-            </super-navigate>\
-            <div class='rating'>&#9734 &#9734 &#9734 &#9734 &#9734</div>";
+              <u>"+bathroom.room+"</u>\</super-navigate>\
+            <div class='rating'>"+stars+"</div>";
 
           infowindow = new google.maps.InfoWindow({
             content: contentString
