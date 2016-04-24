@@ -92,7 +92,7 @@ angular
         new google.maps.Size(35, 35)
       );
       var infowindow;
-      angular.forEach($scope.data, function(bathroom) {
+      angular.forEach($scope.data, function(bathroom, idx) {
 
         var bathroomC = new google.maps.LatLng(bathroom.lat, bathroom.long);
         var marker;
@@ -111,6 +111,7 @@ angular
           $scope.malemarkers.push(marker);
         }
         marker.bathroomData = bathroom;
+        marker.bathroomData['bathroomId'] = idx;
 
         marker.setMap(map);
 
