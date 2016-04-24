@@ -9,7 +9,8 @@
   height: 72vh;
 }
 
-.button:active {
-  background-color: #27496d;
-  text-shadow: -1px 1px #193047;
+.star a:pressed {
+  font-color: ##FFFF00 !important;
+  text-shadow: -2px 2px #193047;
 }
+

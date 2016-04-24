@@ -2,7 +2,10 @@
  * These styles apply for native components on Android.
  * Read more about native styles at http://docs.appgyver.com
  ***********************************************************/
-
+.star a:pressed {
+  font-color: #FFFF00;
+  text-shadow: -2px 2px #193047;
+}
 navigation-bar {
   background-color: #6BDFC2;
   color: #ffffff;

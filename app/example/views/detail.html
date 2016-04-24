@@ -2,6 +2,7 @@
 
 .tab li{ margin-left: 40px; }
 
+
 </style>
 <div class="padding" ng-controller="detailCtrl">
 
@@ -34,20 +35,20 @@
       {{rv.rating}} | {{rv.review.split("%20").join(" ")}}
     </p>
     <label class="item item-input" id="review">
-      <input type="text" ng-model="reviewtext">
+      <input type="text" ng-model="reviewtext" placeholder="What do you think of the bathroom?">
     </label>
     <br>
 
-    <div class="button-bar">
-      <a class="button super-star" ng-click="giveRating(1)"> 1 </a>
-      <a class="button super-star" ng-click="giveRating(2)"> 2 </a>
-      <a class="button super-star" ng-click="giveRating(3)"> 3 </a>
-      <a class="button super-star" ng-click="giveRating(4)"> 4 </a>
-      <a class="button super-star" ng-click="giveRating(5)"> 5 </a>
+    <div class="button-bar star">
+      <a class="button super-star button-clear button-assertive" ng-click="giveRating(1)"> 1 </a>
+      <a class="button super-star button-clear button-assertive" ng-click="giveRating(2)"> 2 </a>
+      <a class="button super-star button-clear button-assertive" ng-click="giveRating(3)"> 3 </a>
+      <a class="button super-star button-clear button-assertive" ng-click="giveRating(4)"> 4 </a>
+      <a class="button super-star button-clear button-assertive" ng-click="giveRating(5)"> 5 </a>
     </div>
     <br>
 
-    Rating: {{rating}}
+    Your Rating: {{rating}}
 
     <br><br>
     <button class="button button-big" ng-click="giveReviews()">
