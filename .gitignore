@@ -57,3 +57,7 @@ node_modules
 # Debug log from npm
 npm-debug.log
 
+#####=== Supersonic ==#####
+
+# Build folder
+/dist
