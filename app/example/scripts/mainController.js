@@ -18,26 +18,46 @@ angular
   };
 
   // Store list of male and female restrooms for filtering purposes
-  $scope.malemarkers = [];
-  $scope.femalemarkers = [];
 
-  $scope.$watch('config.male', function(newValue, oldValue) {
-    if (newValue != oldValue) {
-      for (var i = 0; i < $scope.malemarkers.length; i++) {
-        $scope.malemarkers[i].setVisible(newValue);
+  $scope.malemarkers = [[]];
+  $scope.femalemarkers = [[]];
+
+  // $scope.$watch('config.male', function(newValue, oldValue) {
+  //   if (newValue != oldValue) {
+  //     for (var i = 0; i < $scope.malemarkers[$scope.config.floornum].length; i++) {
+  //       $scope.malemarkers[$scope.config.floornum][i].setVisible(newValue);
+  //     }
+  //   }
+  // });
+
+  // $scope.$watch('config.female', function(newValue, oldValue) {
+  //   if (newValue != oldValue) {
+  //     for (var i = 0; i < $scope.femalemarkers[$scope.config.floornum].length; i++) {
+  //       $scope.femalemarkers[$scope.config.floornum][i].setVisible(newValue);
+  //     }
+  //   }
+  // });
+
+  // $scope.$watch('config.floornum', function(newValue, oldValue) {
+  //   if (newValue != oldValue) {
+  //     supersonic.logger.info("floor number: " + newValue);
+  //   }
+  // })
+
+  $scope.$watch('config', function(newValue, oldValue) {    
+    for (var i = 0; i < $scope.malemarkers.length; i++) {
+      for (var j = 0; j < $scope.malemarkers[i].length; j++) {
+        var show = newValue.male && newValue.floornum == i;        
+        $scope.malemarkers[i][j].setVisible(show);
       }
     }
-  });
-
-  $scope.$watch('config.female', function(newValue, oldValue) {
-    if (newValue != oldValue) {
-      for (var i = 0; i < $scope.femalemarkers.length; i++) {
-        $scope.femalemarkers[i].setVisible(newValue);
+    for (var i = 0; i < $scope.femalemarkers.length; i++) {
+      for (var j = 0; j < $scope.femalemarkers[i].length; j++) {
+        var show = newValue.female && newValue.floornum == i;        
+        $scope.femalemarkers[i][j].setVisible(show);
       }
-    }
-  });
-
-
+    }    
+  }, true);
 
   /*
    * MAP DRAWING
