@@ -11,11 +11,13 @@ angular
    * FILTERING
    * Everything to do with filtering markers
    */
-  // If true, show bathrooms of that gender
+  // If true, show bathrooms of that gender/floor
   $scope.config = {
     male: true,
-    female: true
+    female: true,
+    floornum: 1
   };
+  //supersonic.logger.info("floor number: " + $scope.config.floornum);
 
   // Store list of male and female restrooms for filtering purposes
 
@@ -58,6 +60,7 @@ angular
       }
     }    
   }, true);
+
 
   /*
    * MAP DRAWING
@@ -122,13 +125,20 @@ angular
             position: bathroomC,
             icon: female
           });
-          $scope.femalemarkers.push(marker);
+
+          if(!$scope.femalemarkers[bathroom.floor]){
+            $scope.femalemarkers[bathroom.floor] = [];
+          }
+          $scope.femalemarkers[bathroom.floor].push(marker);
         } else {
           marker = new google.maps.Marker({
             position: bathroomC,
             icon: male
           });
-          $scope.malemarkers.push(marker);
+          if(!$scope.malemarkers[bathroom.floor]){
+            $scope.malemarkers[bathroom.floor] = [];
+          }          
+          $scope.malemarkers[bathroom.floor].push(marker);
         }
         marker.bathroomData = bathroom;
         marker.bathroomData['bathroomId'] = idx;
