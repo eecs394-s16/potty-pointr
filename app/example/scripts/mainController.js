@@ -165,6 +165,9 @@ angular
           for (var j=0; j<bathroom.rating; j++){
             stars+='&#9733';
           }
+          for (j=0; j<5-bathroom.rating; j++){
+            stars+='&#9734';
+          }
 
           var contentString =
             "<super-navigate view-id='example#detail?payload=" + bathroomString + "'>\
