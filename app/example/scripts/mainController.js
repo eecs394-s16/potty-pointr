@@ -46,19 +46,19 @@ angular
   //   }
   // })
 
-  $scope.$watch('config', function(newValue, oldValue) {    
+  $scope.$watch('config', function(newValue, oldValue) {
     for (var i = 0; i < $scope.malemarkers.length; i++) {
       for (var j = 0; j < $scope.malemarkers[i].length; j++) {
-        var show = newValue.male && newValue.floornum == i;        
+        var show = newValue.male && newValue.floornum == i;
         $scope.malemarkers[i][j].setVisible(show);
       }
     }
     for (var i = 0; i < $scope.femalemarkers.length; i++) {
       for (var j = 0; j < $scope.femalemarkers[i].length; j++) {
-        var show = newValue.female && newValue.floornum == i;        
+        var show = newValue.female && newValue.floornum == i;
         $scope.femalemarkers[i][j].setVisible(show);
       }
-    }    
+    }
   }, true);
 
 
@@ -137,7 +137,7 @@ angular
           });
           if(!$scope.malemarkers[bathroom.floor]){
             $scope.malemarkers[bathroom.floor] = [];
-          }          
+          }
           $scope.malemarkers[bathroom.floor].push(marker);
         }
         marker.bathroomData = bathroom;
@@ -161,6 +161,23 @@ angular
 
           supersonic.logger.log(bathroomString);
 
+          // calculating the correct rating
+          bathroom.rating = 0;
+          if (typeof bathroom.reviews != 'undefined') {
+            var num;
+            var count = 0;
+            for (var r in bathroom.reviews) {
+              num = bathroom.reviews[r].rating;
+              supersonic.logger.log("sub rating " + num + " with class " + (typeof num));
+              bathroom.rating += parseInt(num);
+              count += 1;
+            }
+            bathroom.rating /= count;
+            bathroom.rating = Math.round(bathroom.rating);
+          }
+          supersonic.logger.log("Found rating " + bathroom.rating);
+
+          // displaying the stars
           stars = "";
           for (var j=0; j<bathroom.rating; j++){
             stars+='&#9733';
@@ -197,7 +214,6 @@ angular
 
     ref.on("value", function(snapshot) {
       $scope.data = snapshot.val();
-      // supersonic.logger.info("(Data) Success!");
       deferred.resolve("(Data) Success!");
     }, function (errorObject) {
       // supersonic.logger.info("The read failed: " + str(errorObject.code));
